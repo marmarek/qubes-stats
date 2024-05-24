@@ -111,6 +111,7 @@ class DownloadRecord(str):
     re_timestamp = re.compile(r'\[(\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2})')
     re_request_uri = re.compile(r'"GET ([^ "]+)[^"]*" [123]')
     re_address = re.compile(r'^(\d+:)?((\d{1,3}.){3}\d{1,3})')
+    re_release = re.compile(r'r[0-9.]+')
 
     def __init__(self, line):
         super().__init__()
@@ -143,8 +144,8 @@ class DownloadRecord(str):
         while path_tokens[0] in ('repo', 'yum'):
             path_tokens.pop(0)
 
-        if 'contrib' in path_tokens[0]:
-            raise ValueError('contrib repo')
+        if not self.re_release.match(path_tokens[0]):
+            raise ValueError('invalid release')
 
         self.release = path_tokens[0]
 
