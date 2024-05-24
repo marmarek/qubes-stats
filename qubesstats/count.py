@@ -82,6 +82,8 @@ def main():
         counter.load_or_fetch_exit_cache()
 
     for filename in args.logfiles:
+        if not os.path.exists(filename):
+            continue
         logging.log(25, 'parsing logfile %r', filename)
         counter.process(open(filename))
 
