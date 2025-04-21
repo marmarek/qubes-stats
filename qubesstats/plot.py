@@ -154,9 +154,9 @@ class Graph(object):
                 self.stats.releases.index(release_cur) + 1]
             sdata_next_plain = self.stats[release_next, 'plain']
             sdata_next_tor = self.stats[release_next, 'tor']
-        except LookupError:
+        except (LookupError, IndexError):
             # last release
-            sdata_next_plain = np.zeros(sdata_cur_plain.size, dtype=np.int)
+            sdata_next_plain = np.zeros(sdata_cur_plain.size, dtype=int)
             sdata_next_tor = sdata_next_plain
 
         sdata_diff = ((sdata_next_plain + sdata_next_tor)
